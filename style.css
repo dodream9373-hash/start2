@@ -314,3 +314,30 @@ waiting-list {
         padding: 10px;
     }
 }
+
+/* Comments Section Styles */
+#comments {
+    max-width: 900px; /* Wider for comments */
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(0, 255, 65, 0.1);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+    text-align: left; /* Align left for comment threads */
+}
+
+#comments h2 {
+    text-align: center; /* Center the title */
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #00ff41;
+    text-shadow: 0 0 10px #00ff41;
+}
+
+@media (max-width: 900px) {
+    #comments {
+        padding: 20px;
+    }
+}
