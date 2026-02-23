@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌍 Global Lotto Generator - Cyber Edition</title>
+    <title>🌍 World Lotto Generator 🌍</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
         
         * {
             margin: 0;
@@ -14,228 +14,249 @@
         }
         
         body {
-            font-family: 'Orbitron', monospace;
-            background: #000;
-            color: #00ff41;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fecfef, #fad0c4);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #333;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
-            position: relative;
-            overflow-x: auto;
         }
         
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(120,119,198,0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255,119,198,0.3) 0%, transparent 50%);
-            animation: pulse 4s ease-in-out infinite alternate;
-            z-index: -1;
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        
-        @keyframes pulse { 0% { opacity: 0.5; } 100% { opacity: 1; } }
-        @keyframes glitch { 0%,100%{transform:translate(0);}20%{transform:translate(-2px,2px);}40%{transform:translate(-2px,-2px);}60%{transform:translate(2px,2px);}80%{transform:translate(2px,-2px);} }
-        @keyframes glow { 0%,100%{text-shadow:0 0 10px #00ff41;}50%{text-shadow:0 0 20px #00ff41,0 0 30px #00ff41;} }
         
         .header {
             text-align: center;
-            padding: 30px 0;
-            border-bottom: 2px solid #00ff41;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
         
         h1 {
-            font-size: 2.5em;
-            font-weight: 900;
-            text-shadow: 0 0 15px #00ff41;
-            animation: glow 2s ease-in-out infinite;
-            letter-spacing: 3px;
+            font-size: 3em;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 700;
         }
         
         .flags {
             display: flex;
             flex-wrap: wrap;
+            gap: 20px;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            max-width: 1000px;
         }
         
         .flag-btn {
-            background: rgba(0,0,0,0.7);
-            border: 2px solid #00ff41;
-            border-radius: 10px;
-            padding: 15px 20px;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            border-radius: 20px;
+            padding: 20px 25px;
+            font-size: 1.2em;
             cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 700;
-            letter-spacing: 1px;
-            box-shadow: 0 0 15px rgba(0,255,65,0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 10px;
-            min-width: 200px;
+            min-width: 150px;
+            backdrop-filter: blur(10px);
         }
         
         .flag-btn:hover {
-            background: rgba(0,255,65,0.2);
-            box-shadow: 0 0 25px #00ff41;
-            transform: scale(1.05);
-            animation: glitch 0.3s;
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
         
         .flag-emoji {
-            font-size: 1.8em;
-        }
-        
-        #result {
-            max-width: 900px;
-            margin: 0 auto;
-            display: none;
-        }
-        
-        .lotto-info {
-            background: rgba(0,255,65,0.1);
-            border: 1px solid rgba(0,255,65,0.3);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: center;
+            font-size: 3em;
         }
         
         .generate-btn {
-            background: linear-gradient(45deg, #ff0040, #ff4081);
-            color: #fff;
-            border: 2px solid #ff0040;
-            padding: 12px 30px;
-            font-size: 1.1em;
-            font-weight: 700;
-            border-radius: 8px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.3em;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(255,0,64,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             transition: all 0.3s;
-            margin-top: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         
         .generate-btn:hover {
-            box-shadow: 0 0 30px #ff0040;
-            transform: scale(1.05);
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
         }
         
-        .sets {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+        #result {
+            margin-top: 40px;
+            text-align: center;
+            max-width: 600px;
+            animation: fadeIn 0.5s ease;
         }
         
-        .set {
-            background: rgba(0,255,65,0.1);
-            border: 1px solid rgba(0,255,65,0.3);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 15px rgba(0,255,65,0.2);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .set-title {
+        .lotto-info {
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .lotto-name {
+            font-size: 2em;
             font-weight: 700;
-            margin-bottom: 15px;
-            color: #00ff41;
-            font-size: 1.1em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
-        .numbers {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            flex-wrap: wrap;
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
         
         .number {
-            background: linear-gradient(145deg, #1a1a1a, #333);
-            color: #00ff41;
-            width: 38px;
-            height: 38px;
-            border-radius: 6px;
+            background: linear-gradient(145deg, #fff, #f0f0f0);
+            height: 60px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.9em;
-            border: 1px solid #00ff41;
-            box-shadow: 0 0 8px rgba(0,255,65,0.5);
+            font-size: 1.3em;
+            box-shadow: 
+                0 8px 20px rgba(0,0,0,0.1),
+                inset 0 2px 5px rgba(255,255,255,0.8);
+            border: 3px solid #fff;
         }
         
         .bonus {
-            background: linear-gradient(145deg, #ff0040, #cc0033) !important;
-            color: #fff !important;
-            box-shadow: 0 0 12px rgba(255,0,64,0.7) !important;
+            background: linear-gradient(145deg, #ffd700, #ffed4e) !important;
+            box-shadow: 0 8px 20px rgba(255,215,0,0.4) !important;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .flags { flex-direction: column; align-items: center; }
+            .flag-btn { width: 80%; max-width: 300px; }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🌍 GLOBAL LOTTO GENERATOR</h1>
-        <p>Select a country flag → Choose lottery → Generate 5 sets of numbers</p>
+        <h1>🌍 World Lotto Generator 🌍</h1>
+        <p>Click a flag to select country lotto & generate numbers!</p>
     </div>
     
     <div class="flags">
-        <button class="flag-btn" onclick="selectCountry('KR', 'Lotto 6/45', 45, 6, 1)">
-            🇰🇷 <span>Korea Lotto 6/45</span>
+        <button class="flag-btn" onclick="selectCountry('KR', 'Lotto 6/45', 45, 6)">
+            <span class="flag-emoji">🇰🇷</span>
+            <span>Korea</span>
         </button>
-        <button class="flag-btn" onclick="selectCountry('DE', 'Lotto 6aus49', 49, 6, 1)">
-            🇩🇪 <span>Germany Lotto 6/49</span>
+        <button class="flag-btn" onclick="selectCountry('US', 'Powerball', 69, 5, true)">
+            <span class="flag-emoji">🇺🇸</span>
+            <span>USA</span>
         </button>
-        <button class="flag-btn" onclick="selectCountry('US', 'Powerball', 69, 5, 26)">
-            🇺🇸 <span>USA Powerball</span>
+        <button class="flag-btn" onclick="selectCountry('GB', 'UK Lotto', 59, 6)">
+            <span class="flag-emoji">🇬🇧</span>
+            <span>UK</span>
         </button>
-        <button class="flag-btn" onclick="selectCountry('BR', 'Mega-Sena', 60, 6, 0)">
-            🇧🇷 <span>Brazil Mega-Sena</span>
+        <button class="flag-btn" onclick="selectCountry('DE', 'Lotto 6/49', 49, 6)">
+            <span class="flag-emoji">🇩🇪</span>
+            <span>Germany</span>
         </button>
-        <button class="flag-btn" onclick="selectCountry('AU', 'Oz Lotto', 47, 7, 0)">
-            🇦🇺 <span>Australia Oz Lotto</span>
+        <button class="flag-btn" onclick="selectCountry('FR', 'Loto', 49, 5)">
+            <span class="flag-emoji">🇫🇷</span>
+            <span>France</span>
         </button>
-        <button class="flag-btn" onclick="selectCountry('HK', 'Mark Six', 49, 6, 1)">
-            🇭🇰 <span>Hong Kong Mark Six</span>
+        <button class="flag-btn" onclick="selectCountry('IT', 'SuperEnalotto', 90, 6)">
+            <span class="flag-emoji">🇮🇹</span>
+            <span>Italy</span>
         </button>
-        <button class="flag-btn" onclick="selectCountry('ES', 'Primitiva', 49, 6, 1)">
-            🇪🇸 <span>Spain Primitiva</span>
+        <button class="flag-btn" onclick="selectCountry('ES', 'El Gordo', 54, 5)">
+            <span class="flag-emoji">🇪🇸</span>
+            <span>Spain</span>
+        </button>
+        <button class="flag-btn" onclick="selectCountry('CA', 'Lotto 6/49', 49, 6)">
+            <span class="flag-emoji">🇨🇦</span>
+            <span>Canada</span>
+        </button>
+        <button class="flag-btn" onclick="selectCountry('AU', 'Oz Lotto', 47, 7)">
+            <span class="flag-emoji">🇦🇺</span>
+            <span>Australia</span>
+        </button>
+        <button class="flag-btn" onclick="selectCountry('JP', 'Lotto 6', 43, 6)">
+            <span class="flag-emoji">🇯🇵</span>
+            <span>Japan</span>
         </button>
     </div>
     
-    <div id="result">
-        <div class="lotto-info">
-            <h3 id="lotto-name"></h3>
-            <p id="lotto-range"></p>
-            <button class="generate-btn" onclick="generateLotto()">GENERATE NUMBERS 🔢</button>
-        </div>
-        <div id="sets" class="sets"></div>
-    </div>
+    <button class="generate-btn" onclick="generateNumbers()" id="generateBtn" style="display: none;">
+        🎰 Generate Lucky Numbers! 🎰
+    </button>
+    
+    <div id="result" style="display: none;"></div>
 
     <script>
-        let currentConfig = {};
-        
-        function selectCountry(code, name, maxNum, mainCount, bonusMax) {
-            currentConfig = { code, name, maxNum, mainCount, bonusMax };
-            const result = document.getElementById('result');
-            const nameEl = document.getElementById('lotto-name');
-            const rangeEl = document.getElementById('lotto-range');
+        let currentCountry = '';
+        let currentLotto = '';
+        let maxNum = 0;
+        let pickNums = 0;
+        let hasBonus = false;
+
+        function selectCountry(country, lotto, max, picks, bonus = false) {
+            currentCountry = country;
+            currentLotto = lotto;
+            maxNum = max;
+            pickNums = picks;
+            hasBonus = bonus;
             
-            nameEl.textContent = name;
-            rangeEl.textContent = `${mainCount} from 1-${maxNum} ${bonusMax > 0 ? `+ Bonus 1-${bonusMax}` : ''}`;
-            result.style.display = 'block';
-            document.getElementById('sets').innerHTML = '';
+            document.getElementById('generateBtn').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            
+            // Visual feedback
+            document.querySelectorAll('.flag-btn').forEach(btn => {
+                btn.style.transform = 'scale(1)';
+                btn.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
+            });
+            
+            event.target.style.transform = 'scale(1.1)';
+            event.target.style.boxShadow = '0 20px 40px rgba(255,107,107,0.5)';
         }
-        
-        function generateNumbers(config) {
-            const { maxNum, mainCount, bonusMax } = config;
+
+        function generateNumbers() {
             const numbers = [];
-            
-            // Generate main + bonus numbers
-            const totalNumbers = mainCount + (bonusMax > 0 ? 1 : 0);
-            while (numbers.length < totalNumbers) {
+            while (numbers.length < (hasBonus ? pickNums + 1 : pickNums)) {
                 const num = Math.floor(Math.random() * maxNum) + 1;
                 if (!numbers.includes(num)) {
                     numbers.push(num);
@@ -243,31 +264,38 @@
             }
             numbers.sort((a, b) => a - b);
             
-            return numbers;
-        }
-        
-        function generateLotto() {
-            const setsDiv = document.getElementById('sets');
-            let html = '';
+            const mainNumbers = numbers.slice(0, pickNums);
+            const bonus = hasBonus ? numbers[pickNums] : null;
             
-            for (let i = 1; i <= 5; i++) {
-                const numbers = generateNumbers(currentConfig);
-                const mainNumbers = numbers.slice(0, currentConfig.mainCount);
-                const bonus = currentConfig.bonusMax > 0 ? numbers[numbers.length - 1] : null;
-                
-                html += `<div class="set">
-                    <div class="set-title">SET ${i}</div>
-                    <div class="numbers">`;
-                mainNumbers.forEach(num => {
-                    html += `<span class="number">${num}</span>`;
-                });
-                if (bonus !== null) {
-                    html += `<span class="number bonus">+${bonus}</span>`;
-                }
-                html += `</div></div>`;
+            const resultDiv = document.getElementById('result');
+            let html = `
+                <div class="lotto-info">
+                    <div class="country-flag" style="font-size: 4em; margin-bottom: 10px;">${getFlag(currentCountry)}</div>
+                    <div class="lotto-name">${currentLotto}</div>
+                    <p>Your Lucky Numbers:</p>
+                    <div class="numbers-grid">`;
+            
+            mainNumbers.forEach(num => {
+                html += `<div class="number">${num}</div>`;
+            });
+            
+            if (bonus) {
+                html += `<div class="number bonus">+${bonus}</div>`;
             }
             
-            setsDiv.innerHTML = html;
+            html += `</div><p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">Good Luck! 🍀</p></div>`;
+            
+            resultDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+        }
+        
+        function getFlag(country) {
+            const flags = {
+                'KR': '🇰🇷', 'US': '🇺🇸', 'GB': '🇬🇧', 'DE': '🇩🇪', 
+                'FR': '🇫🇷', 'IT': '🇮🇹', 'ES': '🇪🇸', 'CA': '🇨🇦',
+                'AU': '🇦🇺', 'JP': '🇯🇵'
+            };
+            return flags[country] || '🌍';
         }
     </script>
 </body>
