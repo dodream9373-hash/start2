@@ -1,4 +1,3 @@
-// Add JS here
 document.addEventListener('DOMContentLoaded', () => {
     // Check if Firebase is initialized and the config is valid
     if (typeof firebase === 'undefined' || !firebase.apps.length || firebase.app().options.projectId === 'YOUR_PROJECT_ID') {
@@ -12,23 +11,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const db = firebase.firestore();
+    const functions = firebase.functions();
+    const addReaction = functions.httpsCallable('addReaction');
+
     const reactionsRef = db.collection('pageReactions').doc('lotto-generator');
     const reactionElements = document.querySelectorAll('.reaction');
-    const reactedKey = 'reacted_lotto_generator';
+    const reactedKey = 'reacted_lotto_generator_ip_check';
 
-    // 1. Get initial counts and update UI
+    // 1. Get initial counts and update UI in real-time
     reactionsRef.onSnapshot(doc => {
         if (doc.exists) {
             const counts = doc.data();
             reactionElements.forEach(el => {
                 const emoji = el.dataset.emoji;
-                if (counts[emoji]) {
-                    el.querySelector('.count').textContent = counts[emoji];
-                }
+                el.querySelector('.count').textContent = counts[emoji] || 0;
             });
         } else {
-            // If the document doesn't exist, create it
-            const initialCounts = {};
+             const initialCounts = {};
             reactionElements.forEach(el => {
                 initialCounts[el.dataset.emoji] = 0;
             });
@@ -36,39 +35,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 2. Handle clicks
+    // 2. Handle clicks by calling the Cloud Function
     reactionElements.forEach(el => {
         el.addEventListener('click', () => {
             const alreadyReacted = localStorage.getItem(reactedKey);
             if (alreadyReacted) {
-                alert("You've already reacted!");
+                alert("You've already reacted on this page.");
                 return;
             }
 
             const emoji = el.dataset.emoji;
+            el.classList.add('reacted'); // Give immediate visual feedback
 
-            // Use a transaction to safely increment the count
-            db.runTransaction(transaction => {
-                return transaction.get(reactionsRef).then(doc => {
-                    if (!doc.exists) {
-                        transaction.set(reactionsRef, { [emoji]: 1 });
-                        return;
+            addReaction({ emoji: emoji })
+                .then(result => {
+                    if (result.data.success) {
+                        console.log(result.data.message);
+                        // Mark that this browser has successfully voted
+                        localStorage.setItem(reactedKey, 'true');
+                    } else {
+                        console.warn(result.data.message);
+                        // If the server says we already voted (e.g., from same IP), mark it as such
+                        localStorage.setItem(reactedKey, 'true');
+                        alert(result.data.message); // Inform the user
                     }
-                    
-                    const newCount = (doc.data()[emoji] || 0) + 1;
-                    transaction.update(reactionsRef, { [emoji]: newCount });
+                })
+                .catch(error => {
+                    console.error("Error calling addReaction function: ", error);
+                    alert("An error occurred. Could not save your reaction.");
+                    // Revert visual feedback on error
+                    el.classList.remove('reacted');
                 });
-            }).then(() => {
-                console.log("Reaction count updated!");
-                localStorage.setItem(reactedKey, 'true'); // Set flag in local storage
-                el.classList.add('reacted'); // Add visual feedback
-            }).catch(error => {
-                console.error("Transaction failed: ", error);
-            });
         });
     });
 
-    // 3. Add visual feedback on load if user has already reacted
+    // 3. Add visual feedback on load if user has already reacted (from this browser)
     if (localStorage.getItem(reactedKey)) {
         reactionElements.forEach(el => el.classList.add('reacted'));
     }
