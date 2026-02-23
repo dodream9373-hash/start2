@@ -279,59 +279,52 @@
         </form>
     </section>
 
-    <section id="comments" style="
-        background: rgba(255,255,255,0.9);
-        border-radius: 20px;
-        padding: 30px;
-        margin-top: 50px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        text-align: center;
-        max-width: 900px;
-        width: 100%;
-    ">
-        <h2 style="
-            font-size: 2em;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-        ">Comments</h2>
-        <div id="disqus_thread"></div>
+    <section id="reactions">
+        <h2>React to this page:</h2>
+        <div class="emoji-reactions">
+            <div class="reaction" data-emoji="😊">
+                <span class="emoji">😊</span>
+                <span class="count">0</span>
+            </div>
+            <div class="reaction" data-emoji="😍">
+                <span class="emoji">😍</span>
+                <span class="count">0</span>
+            </div>
+            <div class="reaction" data-emoji="😂">
+                <span class="emoji">😂</span>
+                <span class="count">0</span>
+            </div>
+            <div class="reaction" data-emoji="🤔">
+                <span class="emoji">🤔</span>
+                <span class="count">0</span>
+            </div>
+            <div class="reaction" data-emoji="😢">
+                <span class="emoji">😢</span>
+                <span class="count">0</span>
+            </div>
+        </div>
     </section>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
     <script>
-        (function() {
-            var disqus_shortname = 'YOUR_DISQUS_SHORTNAME_HERE'; // IMPORTANT: Replace with your actual Disqus shortname
+        // Your web app's Firebase configuration
+        // IMPORTANT: Replace with your actual Firebase project configuration
+        var firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-            if (disqus_shortname === 'YOUR_DISQUS_SHORTNAME_HERE') {
-                var disqus_thread = document.getElementById('disqus_thread');
-                if (disqus_thread) {
-                    disqus_thread.innerHTML = '<div style="padding: 20px; border: 2px dashed #ff6b6b; border-radius: 10px; background-color: rgba(255, 107, 107, 0.1); color: #333;">' +
-                        '<strong>Error:</strong> Disqus is not configured. Please replace <strong>YOUR_DISQUS_SHORTNAME_HERE</strong> in the index.html file with your actual Disqus shortname to enable comments.' +
-                        '</div>';
-                }
-                return; // Stop the script from running further
-            }
-
-            /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-            /*
-            var disqus_config = function () {
-                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-            };
-            */
-            
-            var d = document, s = d.createElement('script');
-            s.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
+        // Your existing script continues here...
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
     <script>
         let currentCountry = '';
         let currentLotto = '';
